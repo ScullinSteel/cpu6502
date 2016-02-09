@@ -2,6 +2,7 @@
   "name": "cpu6502",
   "description": "6502 emulator",
   "repository": "https://github.com/ScullinSteel/cpu6502.git",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "test": "istanbul cover node_modules/.bin/_mocha tests/**/*.js"
