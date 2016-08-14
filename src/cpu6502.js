@@ -1,6 +1,5 @@
-/* -*- mode: Javascript; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
- * Copyright 2010-2013 Will Scullin <scullin@scullinsteel.com>
+ * Copyright 2010-2016 Will Scullin <scullin@scullinsteel.com>
  *
  * Permission to use, copy, modify, distribute, and sell this software and its
  * documentation for any purpose is hereby granted without fee, provided that
@@ -30,7 +29,7 @@ function CPU6502(_options)
         xr = 0, // X Register
         yr = 0, // Y Register
         sp = 0xff; // Stack Pointer
-    
+
     /* Addressing Mode */
     var modes = {
         accumulator: 0,           // A (Accumulator)
@@ -46,9 +45,9 @@ function CPU6502(_options)
         zeroPageY:   9,           // zp,Y Zero Page, Y
 
         absoluteIndirect:   10,  // (a) Indirect
-        zeroPageXIndirect:  11, // (zp,X) Zero Page Indexed Indirect 
+        zeroPageXIndirect:  11, // (zp,X) Zero Page Indexed Indirect
         zeroPageIndirectY:  12, // (zp),Y Zero Page Indexed with Y
-        
+
         /* 65c02 */
         zeroPageIndirect:   13,  // (zp),
         absoluteXIndirect:  14   // (a, X)
@@ -83,7 +82,7 @@ function CPU6502(_options)
         Z: 0x02, // Zero
         C: 0x01  // Carry
     };
-        
+
     /* Memory Locations */
     var loc = {
         STACK: 0x100,
@@ -93,7 +92,7 @@ function CPU6502(_options)
     };
 
     var idx;
-    
+
     var readPages = [];
     var writePages = [];
     var resetHandlers = [];
@@ -136,7 +135,7 @@ function CPU6502(_options)
         if (sub) {
             b ^= 0xff;
         }
-  
+
         // KEGS
         var c, v;
         if ((sr & flags.D) !== 0) {
@@ -201,7 +200,7 @@ function CPU6502(_options)
     function writeByte(addr, val) {
         var page = addr >> 8,
             off = addr & 0xff;
-        
+
         writePages[page].write(page, off, val);
     }
 
@@ -218,7 +217,7 @@ function CPU6502(_options)
 
         lsb = readByte(addr & 0xff, dbg);
         msb = readByte((addr + 1) & 0xff, dbg);
-        
+
         return (msb << 8) | lsb;
     }
 
@@ -266,12 +265,12 @@ function CPU6502(_options)
     function readAbsolute() {
         return readByte(readWordPC());
     }
-    
+
     // $00
     function readZeroPage() {
         return readByte(readBytePC());
     }
-          
+
     // $0000,X
     function readAbsoluteX() {
         var addr = readWordPC(), oldPage = addr >> 8, page;
@@ -282,7 +281,7 @@ function CPU6502(_options)
         }
         return readByte(addr);
     }
-    
+
     // $0000,Y
     function readAbsoluteY() {
         var addr = readWordPC(), oldPage = addr >> 8, page;
@@ -293,22 +292,22 @@ function CPU6502(_options)
         }
         return readByte(addr);
     }
-    
+
     // $00,X
     function readZeroPageX() {
         return readByte((readBytePC() + xr) & 0xff);
     }
-    
+
     // $00,Y
     function readZeroPageY() {
         return readByte((readBytePC() + yr) & 0xff);
     }
-    
+
     // ($00,X)
     function readZeroPageXIndirect() {
         return readByte(readZPWord((readBytePC() + xr) & 0xff));
     }
-    
+
     // ($00),Y
     function readZeroPageIndirectY() {
         var addr = readZPWord(readBytePC()), oldPage = addr >> 8, page;
@@ -319,7 +318,7 @@ function CPU6502(_options)
         }
         return readByte(addr);
     }
-    
+
     // ($00) (65C02)
     function readZeroPageIndirect() {
         return readByte(readZPWord(readBytePC()));
@@ -333,7 +332,7 @@ function CPU6502(_options)
     function writeAbsolute(val) {
         writeByte(readWordPC(), val);
     }
-            
+
     // $00
     function writeZeroPage(val) {
         writeByte(readBytePC(), val);
@@ -343,7 +342,7 @@ function CPU6502(_options)
     function writeAbsoluteX(val) {
         writeByte((readWordPC() + xr) & 0xffff, val);
     }
-            
+
     // $0000,Y
     function writeAbsoluteY(val) {
         writeByte((readWordPC() + yr) & 0xffff, val);
@@ -389,7 +388,7 @@ function CPU6502(_options)
         return readWordPC();
     }
 
-    // ($0000) (6502) 
+    // ($0000) (6502)
     function readAddrAbsoluteIndirectBug() {
         return indirectBug(readWordPC());
     }
@@ -420,12 +419,12 @@ function CPU6502(_options)
         setFlag(flags.I, true);
         pc = readWord(loc.BRK);
     }
-    
+
     /* Load Accumulator */
     function lda(readFn) {
         ar = testNZ(readFn());
     }
-    
+
     /* Load X Register */
     function ldx(readFn) {
         xr = testNZ(readFn());
@@ -460,7 +459,7 @@ function CPU6502(_options)
     function adc(readFn) {
         ar = add(ar, readFn(), false);
     }
-    
+
     /* Subtract with Carry */
     function sbc(readFn) {
         ar = add(ar, readFn(), true);
@@ -470,7 +469,7 @@ function CPU6502(_options)
     function incA() {
         ar = increment(ar);
     }
-    
+
     function inc(readAddrFn) {
         var addr = readAddrFn();
         writeByte(addr, increment(readByte(addr)));
@@ -498,12 +497,12 @@ function CPU6502(_options)
 
     /* Decrement X */
     function dex() {
-        xr = decrement(xr); 
+        xr = decrement(xr);
     }
 
     /* Decrement Y */
     function dey() {
-        yr = decrement(yr); 
+        yr = decrement(yr);
     }
 
     function shiftLeft(val) {
@@ -515,7 +514,7 @@ function CPU6502(_options)
     function aslA() {
         ar = shiftLeft(ar);
     }
-    
+
     function asl(readAddrFn) {
         var addr = readAddrFn();
         writeByte(addr, shiftLeft(readByte(addr)));
@@ -530,7 +529,7 @@ function CPU6502(_options)
     function lsrA() {
         ar = shiftRight(ar);
     }
-    
+
     function lsr(readAddrFn) {
         var addr = readAddrFn();
         writeByte(addr, shiftRight(readByte(addr)));
@@ -613,7 +612,7 @@ function CPU6502(_options)
         setFlag(flags.Z, (val & ar) === 0);
     }
 
-    function compare(a, b) 
+    function compare(a, b)
     {
         b = (b ^ 0xff);
         var c = a + b + 1;
@@ -624,7 +623,7 @@ function CPU6502(_options)
     function cmp(readFn) {
         compare(ar, readFn());
     }
-    
+
     function cpx(readFn) {
         compare(xr, readFn());
     }
@@ -657,7 +656,7 @@ function CPU6502(_options)
             }
         }
     }
-    
+
     /* Transfers and stack */
     function tax() { testNZ(xr = ar); }
 
@@ -948,9 +947,9 @@ function CPU6502(_options)
         0x28: ['PLP', plp, null, modes.implied, 4],
 
         // JMP
-        0x4C: ['JMP', jmp, 
+        0x4C: ['JMP', jmp,
                readAddrAbsolute, modes.absolute, 3],
-        0x6C: ['JMP', jmp, 
+        0x6C: ['JMP', jmp,
                readAddrAbsoluteIndirectBug, modes.absoluteIndirect, 5],
 
         // JSR
@@ -958,7 +957,7 @@ function CPU6502(_options)
 
         // RTS
         0x60: ['RTS', rts, null, modes.implied, 6],
-        
+
         // RTI
         0x40: ['RTI', rti, null, modes.implied, 6],
 
@@ -991,7 +990,7 @@ function CPU6502(_options)
     };
 
     /* 65C02 Instructions */
-    
+
     var cops = {
         // INC / DEC A
         0x1A: ['INC', incA, null, modes.accumulator, 2],
@@ -1013,9 +1012,9 @@ function CPU6502(_options)
         0x89: ['BIT', bitI, readImmediate, modes.immediate, 2],
 
         // JMP absolute indirect indexed
-        0x6C: ['JMP', jmp, readAddrAbsoluteIndirect, 
+        0x6C: ['JMP', jmp, readAddrAbsoluteIndirect,
                modes.absoluteIndirect, 6],
-        0x7C: ['JMP', jmp, readAddrAbsoluteXIndirect, 
+        0x7C: ['JMP', jmp, readAddrAbsoluteXIndirect,
                modes.absoluteXIndirect, 6],
 
         // BRA
@@ -1038,7 +1037,7 @@ function CPU6502(_options)
         0x74: ['STZ', stz, writeZeroPageX, modes.zeroPageX, 4],
         0x9C: ['STZ', stz, writeAbsolute, modes.absolute, 4],
         0x9E: ['STZ', stz, writeAbsoluteX, modes.absoluteX, 5],
-        
+
         // TRB
         0x14: ['TRB', trb, readAddrZeroPage, modes.zeroPage, 5],
         0x1C: ['TRB', trb, readAddrAbsolute, modes.absolute, 6],
@@ -1065,9 +1064,9 @@ function CPU6502(_options)
                 debug('Unknown OpCode: ' + toHex(b) + ' at ' + toHex(pc - 1, 4));
             }, null, modes.implied, 2];
         } else {
-            unk = ['???', 
+            unk = ['???',
                    function() { /* debug('Unknown OpCode: ' + toHex(b) +
-                   ' at ' + toHex(pc - 1, 4)); */ }, 
+                   ' at ' + toHex(pc - 1, 4)); */ },
                    null, modes.implied,
                    1];
         }
@@ -1281,7 +1280,7 @@ function CPU6502(_options)
 
             if (symbols) {
                 if (symbols[_pc]) {
-                    result += symbols[_pc] + 
+                    result += symbols[_pc] +
                         '          '.substring(symbols[_pc].length);
                 } else {
                     result += '          ';
@@ -1319,11 +1318,17 @@ function CPU6502(_options)
                     result += toHex(page) + toHex(idx << 4) + ': ';
                     for (jdx = 0; jdx < 16; jdx++) {
                         b = readByte(page * 256 + idx * 16 + jdx, true);
+                        if (jdx == 8) {
+                            result += ' ';
+                        }
                         result += toHex(b) + ' ';
                     }
                     result += '        ';
                     for (jdx = 0; jdx < 16; jdx++) {
                         b = readByte(page * 256 + idx * 16 + jdx, true) & 0x7f;
+                        if (jdx == 8) {
+                            result += ' ';
+                        }
                         if (b >= 0x20 && b < 0x7f) {
                             result += String.fromCharCode(b);
                         } else {
@@ -1352,8 +1357,8 @@ function CPU6502(_options)
         sync: function() {
             return sync;
         },
-    
-        cycles: function() { 
+
+        cycles: function() {
             return cycles;
         },
 
@@ -1368,7 +1373,7 @@ function CPU6502(_options)
                 cycles: cycles
             };
         },
-        
+
         setState: function(state) {
             ar = state.a;
             xr = state.x;
@@ -1378,7 +1383,7 @@ function CPU6502(_options)
             sp = state.sp;
             cycles = state.cycles;
         },
-        
+
         dumpRegisters: function() {
             return toHex(pc, 4) +
                 '-   A=' + toHex(ar) +
@@ -1389,7 +1394,7 @@ function CPU6502(_options)
                 ' ' +
                 ((sr & flags.N) ? 'N' : '-') +
                 ((sr & flags.V) ? 'V' : '-') +
-                '-' + 
+                '-' +
                 ((sr & flags.B) ? 'B' : '-') +
                 ((sr & flags.D) ? 'D' : '-') +
                 ((sr & flags.I) ? 'I' : '-') +
