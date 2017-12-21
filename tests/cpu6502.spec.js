@@ -1510,7 +1510,7 @@ describe('CPU6502', function() {
 
         it('should dump page', function() {
             var page = cpu.dumpPage(0xff);
-            expect(page).to.have.string('FF80: 48 45 4C 4C 4F 0D 00 00 00 00 00 00 00 00 00 00         HELLO... ........');
+            expect(page).to.have.string('FF80: 48 45 4C 4C 4F 0D 00 00  00 00 00 00 00 00 00 00         HELLO... ........');
         });
 
         it('should dump registers', function() {
