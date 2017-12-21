@@ -1,3 +1,4 @@
+/*eslint-env node */
 /*globals describe, beforeEach, it */
 var expect = require('chai').expect;
 var CPU6502 = require('../src/cpu6502');
@@ -1499,22 +1500,22 @@ describe('CPU6502', function() {
     describe('#utility', function() {
         it('should list', function() {
             var listing = cpu.list(0xff00);
-            expect(listing[0]).to.be.eql("FF00- 00 00       BRK #$00");
+            expect(listing[0]).to.be.eql('FF00- 00 00       BRK #$00');
         });
 
         it('should list with symbols', function() {
             var listing = cpu.list(0xff00, {0x00: 'ZERO', 0xFF00: 'ENTRY'});
-            expect(listing[0]).to.be.eql("FF00- ENTRY     00 00       BRK #ZERO");
+            expect(listing[0]).to.be.eql('FF00- ENTRY     00 00       BRK #ZERO');
         });
 
         it('should dump page', function() {
             var page = cpu.dumpPage(0xff);
-            expect(page).to.have.string('FF80: 48 45 4C 4C 4F 0D 00 00 00 00 00 00 00 00 00 00         HELLO...........');
+            expect(page).to.have.string('FF80: 48 45 4C 4C 4F 0D 00 00 00 00 00 00 00 00 00 00         HELLO... ........');
         });
 
         it('should dump registers', function() {
             var regs = cpu.dumpRegisters();
-            expect(regs).to.be.eql('0000-   A=00 X=00 Y=00 P=20 S=FF --------')
+            expect(regs).to.be.eql('0000-   A=00 X=00 Y=00 P=20 S=FF --------');
         });
     });
 });
@@ -1779,7 +1780,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR0 should branch backward', function () {
             initMemory([[0x00, 0x33, [0xFE]]]);
@@ -1795,7 +1796,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR2 should branch if bit 2 clear', function() {
             initMemory([[0x00, 0x33, [0xFB]]]);
@@ -1803,7 +1804,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR3 should branch if bit 3 clear', function() {
             initMemory([[0x00, 0x33, [0xF7]]]);
@@ -1811,7 +1812,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR4 should branch if bit 4 clear', function() {
             initMemory([[0x00, 0x33, [0xEF]]]);
@@ -1819,7 +1820,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR5 should branch if bit 5 clear', function() {
             initMemory([[0x00, 0x33, [0xDF]]]);
@@ -1827,7 +1828,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR6 should branch if bit 6 clear', function() {
             initMemory([[0x00, 0x33, [0xBF]]]);
@@ -1835,7 +1836,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR7 should branch if bit 7 clear', function() {
             initMemory([[0x00, 0x33, [0x7F]]]);
@@ -1843,7 +1844,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBR0 should not branch if bit 0 set', function() {
             initMemory([[0x00, 0x33, [0x01]]]);
@@ -1851,7 +1852,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR1 should not branch if bit 1 set', function() {
             initMemory([[0x00, 0x33, [0x02]]]);
@@ -1859,7 +1860,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR2 should not branch if bit 2 set', function() {
             initMemory([[0x00, 0x33, [0x04]]]);
@@ -1867,7 +1868,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR3 should not branch if bit 3 set', function() {
             initMemory([[0x00, 0x33, [0x08]]]);
@@ -1875,7 +1876,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR4 should not branch if bit 4 set', function() {
             initMemory([[0x00, 0x33, [0x10]]]);
@@ -1883,7 +1884,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR5 should not branch if bit 5 set', function() {
             initMemory([[0x00, 0x33, [0x20]]]);
@@ -1891,7 +1892,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR6 should not branch if bit 6 set', function() {
             initMemory([[0x00, 0x33, [0x40]]]);
@@ -1899,7 +1900,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBR7 should not branch if bit 7 set', function() {
             initMemory([[0x00, 0x33, [0x80]]]);
@@ -1907,7 +1908,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         // ******** BBS
         it('BBS0 should branch if bit 0 set', function() {
@@ -1916,7 +1917,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS0 should branch backward', function () {
             initMemory([[0x00, 0x33, [0x01]]]);
@@ -1932,7 +1933,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS2 should branch if bit 2 set', function() {
             initMemory([[0x00, 0x33, [0x04]]]);
@@ -1940,7 +1941,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS3 should branch if bit 3 set', function() {
             initMemory([[0x00, 0x33, [0x08]]]);
@@ -1948,7 +1949,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS4 should branch if bit 4 set', function() {
             initMemory([[0x00, 0x33, [0x10]]]);
@@ -1956,7 +1957,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS5 should branch if bit 5 set', function() {
             initMemory([[0x00, 0x33, [0x20]]]);
@@ -1964,7 +1965,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS6 should branch if bit 6 set', function() {
             initMemory([[0x00, 0x33, [0x40]]]);
@@ -1972,7 +1973,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS7 should branch if bit 7 set', function() {
             initMemory([[0x00, 0x33, [0x80]]]);
@@ -1980,7 +1981,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0482
             });
-        })
+        });
 
         it('BBS0 should not branch if bit 0 clear', function() {
             initMemory([[0x00, 0x33, [0xFE]]]);
@@ -1988,7 +1989,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS1 should not branch if bit 1 clear', function() {
             initMemory([[0x00, 0x33, [0xFD]]]);
@@ -1996,7 +1997,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS2 should not branch if bit 2 clear', function() {
             initMemory([[0x00, 0x33, [0xFB]]]);
@@ -2004,7 +2005,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS3 should not branch if bit 3 clear', function() {
             initMemory([[0x00, 0x33, [0xF7]]]);
@@ -2012,7 +2013,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS4 should not branch if bit 4 clear', function() {
             initMemory([[0x00, 0x33, [0xEF]]]);
@@ -2020,7 +2021,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS5 should not branch if bit 5 clear', function() {
             initMemory([[0x00, 0x33, [0xDF]]]);
@@ -2028,7 +2029,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS6 should not branch if bit 6 clear', function() {
             initMemory([[0x00, 0x33, [0xBF]]]);
@@ -2036,7 +2037,7 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
+        });
 
         it('BBS7 should not branch if bit 7 clear', function() {
             initMemory([[0x00, 0x33, [0x7B]]]);
@@ -2044,8 +2045,8 @@ describe('65c02', function() {
                 cycles: 5,
                 pc: 0x0403
             });
-        })
-    })
+        });
+    });
 
     describe('Bit set/reset', function () {
         it('RMB0 should reset bit 0', function() {
@@ -2055,7 +2056,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xFE]]]);
-        })
+        });
 
         it('RMB1 should reset bit 1', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2064,7 +2065,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xFD]]]);
-        })
+        });
 
         it('RMB2 should reset bit 2', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2073,7 +2074,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xFB]]]);
-        })
+        });
 
         it('RMB3 should reset bit 3', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2082,7 +2083,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xF7]]]);
-        })
+        });
 
         it('RMB4 should reset bit 4', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2091,7 +2092,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xEF]]]);
-        })
+        });
 
         it('RMB5 should reset bit 5', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2100,7 +2101,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xDF]]]);
-        })
+        });
 
         it('RMB6 should reset bit 6', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2109,7 +2110,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0xBF]]]);
-        })
+        });
 
         it('RMB7 should reset bit 7', function() {
             initMemory([[0x00, 0x33, [0xFF]]]);
@@ -2118,7 +2119,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x7F]]]);
-        })
+        });
 
         it('SMB0 should set bit 0', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2127,7 +2128,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x01]]]);
-        })
+        });
 
         it('SMB1 should set bit 1', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2136,7 +2137,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x02]]]);
-        })
+        });
 
         it('SMB2 should set bit 2', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2145,7 +2146,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x04]]]);
-        })
+        });
 
         it('SMB3 should set bit 3', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2154,7 +2155,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x08]]]);
-        })
+        });
 
         it('SMB4 should set bit 4', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2163,7 +2164,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x10]]]);
-        })
+        });
 
         it('SMB5 should set bit 5', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2172,7 +2173,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x20]]]);
-        })
+        });
 
         it('SMB6 should set bit 6', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2181,7 +2182,7 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x40]]]);
-        })
+        });
 
         it('SMB7 should set bit 7', function() {
             initMemory([[0x00, 0x33, [0x00]]]);
@@ -2190,8 +2191,8 @@ describe('65c02', function() {
                 pc: 0x0402
             });
             expectMemory([[0x00, 0x33, [0x80]]]);
-        })
-    })
+        });
+    });
 
     describe('#math', function() {
         // INC A
