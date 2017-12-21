@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         mochaTest: {
             files: {
                 src: [
-                    'tests/**/*.js'
+                    'tests/**/*.spec.js'
                 ],
                 options: {
                     reporter: 'spec'
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
             }
         }
     });
-    
+
     grunt.loadNpmTasks('gruntify-eslint');
     grunt.loadNpmTasks('grunt-mocha-test');
 
@@ -29,4 +29,3 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['mochaTest']);
     grunt.registerTask('default', ['lint']);
 };
-    
