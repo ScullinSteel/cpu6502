@@ -689,7 +689,7 @@ function CPU6502(_options)
     /* WDC 65C02 branches */
 
     function bbr(b) {
-        var val = readZeroPage()
+        var val = readZeroPage();
         var off = readBytePC(); // changes pc
         if (((1 << b) & val) === 0) {
             pc += off > 127 ? off - 256 : off;
@@ -697,7 +697,7 @@ function CPU6502(_options)
     }
 
     function bbs(b) {
-        var val = readZeroPage() // ZP
+        var val = readZeroPage(); // ZP
         var off = readBytePC(); // changes pc
         if (((1 << b) & val) !== 0) {
             pc += off > 127 ? off - 256 : off;
@@ -1443,11 +1443,17 @@ function CPU6502(_options)
                     result += toHex(page) + toHex(idx << 4) + ': ';
                     for (jdx = 0; jdx < 16; jdx++) {
                         b = readByte(page * 256 + idx * 16 + jdx, true);
+                        if (jdx == 8) {
+                            result += ' ';
+                        }
                         result += toHex(b) + ' ';
                     }
                     result += '        ';
                     for (jdx = 0; jdx < 16; jdx++) {
                         b = readByte(page * 256 + idx * 16 + jdx, true) & 0x7f;
+                        if (jdx == 8) {
+                            result += ' ';
+                        }
                         if (b >= 0x20 && b < 0x7f) {
                             result += String.fromCharCode(b);
                         } else {
